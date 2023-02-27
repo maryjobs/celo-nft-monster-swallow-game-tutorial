@@ -1,10 +1,12 @@
+# How To Build a Monster Swallow NFT Game on The Celo Blockchain
+
 ## Introduction
 
-In this tutorial, I will teach you how to build an NFT Game On the Celo Blockchain.
+In this tutorial, I will teach you how to build an NFT game on the Celo blockchain.
 
-Monster War is an NFT game where players can mint and upgrade their monsters by paying 0.5 celo per upgrade. Each upgrade will add one power value point to their monster. Players’ NFT monsters can also Swallow other players’ NFT monsters, but this can only be done if the attacker has minted his NFT and the power value of his monster is more than the power value of the monster they are attacking.
+**Monster War** is an NFT game where players can mint and upgrade their monsters by paying 0.5 celo per upgrade. Each upgrade will add one power value point to their monster. Player's NFT monsters can also swallow other player's NFT monsters. This can only be done if the attacker mints his NFT and the power value of his monster is more than the power value of the monster they are attacking.
 
-It's a battle between players where each player can collect and upgrade NFTs. Players can mint their own NFTs, boost the power value of their NFTs, and swallow other players’ NFTs depending on the power value of their NFTs. Players are also able to remove their NFTs from the game.
+**Monster War** is a battle between players where each player can collect and upgrade NFTs. Players can mint their own NFTs, boost the power value of their NFTs, and swallow other player's NFTs depending on the power value of their NFTs. Players can also remove their NFTs from the game.
 
 Here is a demo app [link](https://luxury-daffodil-d1fa4d.netlify.app/) of what you’ll be creating.
 
@@ -12,38 +14,51 @@ And a Screenshot
 
 ![image](images/monster-nft.jpg)
 
-## Prerequisites.
+## Table of Contents
+* [Introduction](#introduction)
+  * [Prerequisites.](#prerequisites)
+  * [Requirements](#requirements)
+  * [Installation](#installation)
+  * [Smart Contract](#smart-contract)
+    + [NFT Minter](#nft-minter)
+    + [Breakdown](#breakdown)
+  * [Front End](#front-end)
+    + [Stack](#stack)
+    + [Setup](#setup)
+    + [Deployment](#deployment)
+    + [Hooks](#hooks)
+  * [References](#references)
 
-- Solidity, smart-contract, and blockchain concepts.
-- Hardhat.
-- React.
-- Basic web Development.
+## Prerequisites.
+To continue this tutorial, you need a basic understanding of the following. 
+
+- [Solidity](https://docs.soliditylang.org/) 
+- [Smart contract](https://www.investopedia.com/terms/s/smart-contracts.asp#:~:text=Smart%20contracts%20are%20code%20written,parties%20to%20trust%20each%20other.)
+- [Blockchain concepts](https://www.ibm.com/topics/what-is-blockchain)
+- [Hardhat](https://hardhat.org/)
+- [React](https://reactjs.org/)
+- [Basics of web development](https://reactjs.org/)
+- [Bootstrap](https://getbootstrap.com/)
 
 ## Requirements
-
-- Solidity.
-- OpenZeppelin.
-- Hardhat.
-- React.
-- Bootstrap.
-- NodeJS 12.0.1 upwards installed.
-- MetaMask.
+- [NodeJS 12.0.1 upwards installed](https://nodejs.org/)
+- [MetaMask](https://metamask.io/download/)
 
 ## Installation
 
-Click on this [link](https://github.com/maryjobs/celo-nft-moster-swallow-game) repo from your github.
+Click on this [repo](https://github.com/maryjobs/celo-nft-moster-swallow-game) and follow the instruction below to clone the repository from your github.
 
-- Clone the repo to your computer.
-- open the project from from vscode.
-- Run `npm install` command to install all the dependencies required to run the app locally.
+1. Clone the repo to your computer.
+2. open the project from from vscode.
+3. Run `npm install` command to install all the dependencies required to run the app locally.
 
-## SmartContract
+## Smart Contract
 
 Let's dive into the smart contract to understand how it works.
 
-## NFT Minter
+### NFT Minter
 
-The Finished Smart Contract will look like this.
+The finished smart contract will look like this.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -203,9 +218,9 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
 ```
 
-## Breakdown
+### Breakdown
 
-The first step is to declare the license and solidity version and import all the necessary OpenZeppelin contracts.
+The first step is to declare the license, solidity version and import all the necessary OpenZeppelin contracts.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -219,10 +234,11 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 ```
 
-These contracts provide functionality for creating ERC721 tokens, as well as additional functionality for enumeration, URI storage, Burnable, Ownable, and Counters. OpenZeppelin is an open-source secure framework for building smart contracts. To learn more about open zeppelin smart contracts, [click here](https://docs.openzeppelin.com/contracts/4.x/).
+[OpenZeppelin](https://docs.openzeppelin.com/contracts/4.x/) is an open-source secure framework for building smart contracts.The contracts imported in the code above are from OpenZeppelin, they provide functionality for creating ERC721 tokens, as well as additional functionality for enumeration, URI storage, Burnable, Ownable, and Counters.
+
 We’ll be using the ERC721 Token standard.
 
-Next, we’ll inherit all the imported open zeppelin contracts and create our constructors and variables.
+Next, we’ll inherit all the imported openZeppelin contracts and create our constructors and variables.
 
 ```solidity
 contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
@@ -240,11 +256,11 @@ Here we declared the contract `MyNFT`, and it inherits from several OpenZeppelin
     constructor() ERC721("MONSTERNFT", "MNFT") {}
 ```
 
-Next, set up our counter to enables the use of the Counters contract from the OpenZeppelin library.
+Next, set up our counter to enable the use of the Counters contract from the OpenZeppelin library.
 
-Then we declare a private variable called `_tokenIdCounter` of the Counters.Counter type. This variable is used to keep track of the number of NFTs that have been minted and an internal uint variable called `allNFTs` This variable is used to keep track of the number of NFTs that are currently in the war room.
+Then we declare a private variable called `_tokenIdCounter` of the Counters.Counter type. This variable keeps track of the number of NFTs minted. The internal uint variable called `allNFTs` keeps track of the number of NFTs that are currently in the war room.
 
-We also declare our constructor named "MONSTERNFT" and the symbol "MNFT". This sets up the basic functionality for the contract to manage non-fungible tokens.
+We also declare our constructor named "MONSTERNFT" and the symbol "MNFT". Our constructor sets up the basic functionality for the contract to manage non-fungible tokens.
 
 ```solidity
 struct NFT {
@@ -255,7 +271,11 @@ struct NFT {
     }
 ```
 
-Next, we declare a struct called `NFT`. The struct has four fields: `tokenId` (a uint that represents the unique ID of the NFT), `owner` (an address that represents the owner of the NFT), `powerValue` (a uint that represents the power value of the NFT), and `name` (a string that represents the name of the NFT).
+Next, we declare a struct called `NFT`. The struct has four fields: 
+- `tokenId` - A uint that represents the unique ID of the NFT.
+- `owner` - An address that represents the owner of the NFT.
+- `powerValue` - A uint that represents the power value of the NFT.
+- `name` - A string that represents the name of the NFT.
 
 ```solidity
     mapping(address => bool) public minters;
@@ -263,7 +283,10 @@ Next, we declare a struct called `NFT`. The struct has four fields: `tokenId` (a
     mapping (address => uint) public playerpowervalue;
 ```
 
-We also declare three mappings. First, `minters` (a mapping addresses to booleans that represents whether an address is a minter or not), `nfts` (a mapping uint to NFT to accomodate the list of nfts minted) and `playerpowervalue` (a mapping address to uint to keep track of the power value of each player).
+We also declare three mappings, which are. 
+- `minters` - A mapping addresses to booleans that represents whether an address is a minter or not.
+- `nfts` - A mapping uint to NFT to accomodate the list of nfts minted.
+- `playerpowervalue` - A mapping address to uint to keep track of the power value of each player.
 
 ```solidity
   modifier hasmint(address _address) {
@@ -278,11 +301,11 @@ We also declare three mappings. First, `minters` (a mapping addresses to boolean
     }
 ```
 
-Next we added two modifiers.
+Next we added two modifiers, which are.
 
-`hasmint` This modifier checks whether the address calling the function has already minted an NFT by verifying that the address is a valid minter. If the address is not a valid minter, the function execution is aborted. otherwise, it is allowed to proceed.
+- `hasmint` - This modifier checks whether the address calling the function has already minted an NFT by verifying that the address is a valid minter. If the address is not a valid minter, the function execution is aborted, otherwise, it is allowed to proceed.
 
-`canSwallow` This modifier checks whether the power value of the attacker is greater than the power value of the owner of the NFT before allowing the `swallowNFT()` function to execute. If the power value of the attacker is less than or equal to the owner's power value, the function execution is aborted.
+- `canSwallow` - This modifier checks whether the power value of the attacker is greater than the power value of the owner of the NFT before allowing the `swallowNFT()` function to execute. If the power value of the attacker is less than or equal to the owner's power value, the function execution is aborted.
 
 let's look at the functions
 
@@ -295,7 +318,7 @@ let's look at the functions
     }
 ```
 
-Let's declare a function called `mint()` The Mint function allows a player to mint their own NFTs. The function takes a string as a parameter used to specify the name of the NFT. The function first generates a unique `tokenId` for the NFT and increments the `tokenId counter`. It then calls the `_safeMint` function, inherited from the `ERC721` contract and is used to mint the NFT. Finally, it calls the `addNFT` function which adds the NFT to the game.
+Let's declare a function called `mint()` The Mint function allows a player to mint their own NFTs. The  `mint()` function takes a string as a parameter used to specify the name of the NFT. The function first generates a unique `tokenId` for the NFT and increments the `tokenId counter`. It then calls the `_safeMint` function, inherited from the `ERC721` contract and is used to mint the NFT. Finally, it calls the `addNFT` function which adds the NFT to the game.
 
 ```solidity
  function addNFT(uint256 _tokenId, string memory _name) private{
@@ -323,7 +346,7 @@ function swallowNFT(uint _index) external hasmint(msg.sender) canSwallow(msg.sen
   }
 ```
 
-The `SwallowNFT()` function allows a player to swallow another player’s NFT. This function takes an index as a parameter which is used to specify the NFT to be swallowed. The function is protected by two modifiers. `hasmint` and `canSwallow`. The `hasmint` modifier checks if the address has minted an NFT and the `canSwallow` modifier checks if the power value of the attacker is greater than the power value of the owner. If both the modifiers pass, the function transfers the NFT from the owner to the attacker, decreases the power value of the owner and increases the power value of the attacker.
+The `swallowNFT()` function allows a player to swallow another player’s NFT. This function takes an index as a parameter which is used to specify the NFT to be swallowed. The function is protected by two modifiers. `hasmint` and `canSwallow`. The `hasmint` modifier checks if the address has minted an NFT and the `canSwallow` modifier checks if the power value of the attacker is greater than the power value of the owner. If both the modifiers pass, the function transfers the NFT from the owner to the attacker, it then decreases the power value of the owner and increases the power value of the attacker.
 
 ```solidity
  function upgradeNFT(uint _index) external payable{
@@ -334,7 +357,7 @@ The `SwallowNFT()` function allows a player to swallow another player’s NFT. T
      }
 ```
 
-The `UpgradeNFT()` function allows a player to upgrade the power value of their NFT. This function takes an `index` as a parameter which is used to specify the NFT to be upgraded. The function requires that the sender of the transaction is the owner of the NFT. If this requirement is met, the function transfers 0.5 Celo from the owner of the nft to the contract owner and increases the power value of the NFT and the player.
+The `upgradeNFT()` function allows a player to upgrade the power value of their NFT. This function takes an `index` as a parameter which is used to specify the NFT to be upgraded. The function requires that the sender of the transaction is the owner of the NFT. If this requirement is met, the function transfers 0.5 Celo from the owner of the nft to the contract owner and increases the power value of the NFT and the player.
 
 ```solidity
  function canSwallowNFT(address _address, uint _index) public view returns(bool){
@@ -346,7 +369,7 @@ The `UpgradeNFT()` function allows a player to upgrade the power value of their 
     }
 ```
 
-The `CanSwallowNFT()` function returns true if the power value of the attacker is greater than the power value of the owner of the NFT. The function takes an `address` and an `index` as parameters. The address is used to specify the attacker, and the index is used to specify the NFT to be swallowed. The function returns true if the power value of the attacker is greater than the power value of the owner of the nft.
+The `canSwallowNFT()` function returns true if the power value of the attacker is greater than the power value of the owner of the NFT. The function takes an `address` and an `index` as parameters. The address is used to specify the attacker, and the index is used to specify the NFT to be swallowed. The function returns true if the power value of the attacker is greater than the power value of the owner of the nft.
 
 ```solidity
  function hasMinted(address _address) public view returns(bool){
@@ -358,7 +381,7 @@ The `CanSwallowNFT()` function returns true if the power value of the attacker i
     }
 ```
 
-The `HasMinted()` function returns true if the address has minted an NFT. The function takes an `address` as a parameter which is used to specify the address to check. The function returns true if the address has minted an NFT. This will be usefull in our front-end.
+The `hasMinted()` function returns true if the address has minted an NFT. The function takes an `address` as a parameter which is used to specify the address to check. The function returns true if the address has minted an NFT. This will be usefull in our front-end.
 
 ```solidity
  function getAllNFTS(uint _index) public view returns(NFT memory){
@@ -366,7 +389,7 @@ The `HasMinted()` function returns true if the address has minted an NFT. The fu
     }
 ```
 
-The `GetAllNFTS()` function returns all NFTs. The function takes an `index` as a parameter which is used to specify the NFT to be returned. The function returns an NFT struct with the given `index`.
+The `getAllNFTS()` function returns all NFTs. The function takes an `index` as a parameter which is used to specify the NFT to be returned. The function returns an NFT struct with the given `index`.
 
 ```solidity
  function remove(uint _index) external {
@@ -378,7 +401,7 @@ The `GetAllNFTS()` function returns all NFTs. The function takes an `index` as a
 	 }
 ```
 
-The `Remove()` function removes an NFT from the game. The function takes an `index` as a parameter to specify the NFT to be removed. The function requires that the sender of the transaction is the owner of the NFT. If this requirement is met, the function transfers the NFT from the contract to the owner and deletes the NFT from the internal nfts mapping.
+The `remove()` function removes an NFT from the game. The function takes an `index` as a parameter to specify the NFT to be removed. The function requires that the sender of the transaction is the owner of the NFT. If this requirement is met, the function transfers the NFT from the contract to the owner and deletes the NFT from the internal nfts mapping.
 
 ```solidity
  function getNFTlength() public view returns (uint256) {
@@ -386,13 +409,13 @@ The `Remove()` function removes an NFT from the game. The function takes an `ind
     }
 ```
 
-The `GetNFTlength()` function returns the length of the NFTs in the list. The function returns the value of the `allNFTs` variable which is the length of all monster NFTs in the list.
+The `getNFTlength()` function returns the length of the NFTs in the list. The function returns the value of the `allNFTs` variable which is the length of all monster NFTs in the list.
 
 The rest of the functions are overrides that are required by solidity.
 
 That’s it For the smart contract. Next, we’ll be looking at the front end.
 
-## Front end
+## Front End
 
 ### Stack
 
@@ -403,9 +426,9 @@ We’ll use the following stack for this section.
 
 ### Setup
 
-Clone the full project from [this Repository](https://github.com/maryjobs/celo-nft-moster-swallow-game) to follow up with this section.
+Clone the full project from [this repository](https://github.com/maryjobs/celo-nft-moster-swallow-game) to follow up with this section.
 
-Here is an example of the env file
+Here is an example of the `.env` file
 
 ```.env
 MNEMONIC=""
@@ -414,9 +437,9 @@ REACT_APP_STORAGE_API_KEY=""
 
 ### Deployment
 
-We’ll use hardhat to deploy our smart-contracts to the celo blockchain.
+We’ll use hardhat to deploy our smart-contracts to the Celo blockchain.
 
-Configure your `hardhat.config` file to look like this to enable hardhat to deploy the smart contracts to the celo blockchain.
+Configure your `hardhat.config` file to look like this to enable hardhat to deploy the smart contracts to the Celo blockchain.
 
 ```javascript
 require("@nomiclabs/hardhat-waffle");
@@ -518,11 +541,11 @@ main()
 
 The script above will deploy the smart contract and create a contract folder for the ABI and contract address of the smart contract.
 
-Deploy the smart contracts to the celo block-chain by running this command
+Deploy the smart contracts to the celo block-chain by running this command.
 
 `npx hardhat run scripts/deploy.js --network alfajores`
 
-You should see something like this in the terminal
+You should see something like this in the terminal.
 
 `MyNFT deployed to: 0x49F39D9531B826826EDc7066161F20570105AFb1`
 
@@ -571,9 +594,9 @@ ReactDOM.render(
 reportWebVitals();
 ```
 
-In the `Index.js` we made some necessary imports like the `ContractKitProvider`, `Alfajore`s, and `NetworkNames` from the use-contract kit.
+In the `Index.js`file, we made some necessary imports like the `ContractKitProvider`, `Alfajore`s, and `NetworkNames` from the use-contract kit.
 
-Next, we wrapped our `ContractKitProvider` around the app Component to enable our app to connect to the celo test network.
+Next, we wrapped our `ContractKitProvider` around the app Component to enable our app to connect to the Celo test network.
 
 [Click here](https://docs.celo.org/developer/contractkit) to learn more about ContractKit
 
@@ -646,9 +669,9 @@ export const useMinterContract = () =>
   useContract(MyNFTAbi.abi, MyNFTContractAddress.MyNFT);
 ```
 
-The `useMinterContract` import the ABI and contract address from the JSON files that we generated when we run the deploy scripts which is then used to create and export an instance of their smart contracts.
+The `useMinterContract` import the ABI and contract address from the JSON files that we generated when we run the deploy scripts, which is then used to create and export an instance of their smart contracts.
 
-Inside the utils folder open the `minter.js` file, it should look like this.
+Inside the utils folder, open the `minter.js` file. It should look like this.
 
 ```javascript
 import { ethers } from "ethers";
@@ -838,7 +861,7 @@ export const getNfts = async (minterContract) => {
 };
 ```
 
-The `getNfts()` function is used to fetch all NFTs stored on the smart contract. It takes the `minterContract` as an argument and returns an array of NFTs.
+The `getNfts()` function fetches all NFTs stored on the smart contract. It takes the `minterContract` as an argument and returns an array of NFTs.
 
 ```javascript
 export const fetchNftOwner = async (minterContract, index) => {
@@ -850,7 +873,7 @@ export const fetchNftOwner = async (minterContract, index) => {
 };
 ```
 
-The `fetchNftOwner()` function is used to get the owner address of an NFT. It takes the `minterContract` and the index of the NFT as arguments and returns the owner address.
+The `fetchNftOwner()` function gets the owner address of an NFT. It takes the `minterContract` and the index of the NFT as arguments and returns the owner address.
 
 ```javascript
 export const minted = async (minterContract, _address) => {
@@ -874,7 +897,7 @@ export const checkPowervalue = async (minterContract, _address, _index) => {
 };
 ```
 
-The `checkPowervalue()` function is used to check the power value of an NFT. It takes the `minterContract`, `address`, and `index` of the NFT as arguments and returns a boolean.
+The `checkPowervalue()` function checks the power value of an NFT. It takes the `minterContract`, `address`, and `index` of the NFT as arguments and returns a boolean.
 
 ```javascript
 export const fetchNftContractOwner = async (minterContract) => {
@@ -887,7 +910,7 @@ export const fetchNftContractOwner = async (minterContract) => {
 };
 ```
 
-The `fetchNftContractOwner()` function is used to get the address that deployed the NFT contract. It takes the `minterContract` as an argument and returns the address.
+The `fetchNftContractOwner()` function gets the address that deployed the NFT contract. It takes the `minterContract` as an argument and returns the address.
 
 ```javascript
 export const swallow = async (minterContract, performActions, index) => {
@@ -952,7 +975,7 @@ export const remove = async (minterContract, performActions, index) => {
 };
 ```
 
-The `remove()` function is used to remove an NFT. It takes the `minterContract` and `performActions` as arguments, along with the index of the NFT. It then uses the `defaultAccount` from the kit to call the remove method and remove the NFT.
+The `remove()` function removes an NFT. It takes the `minterContract` and `performActions` as arguments, along with the index of the NFT. It then uses the `defaultAccount` from the kit to call the remove method and remove the NFT.
 
 There you have it. We have successfully interacted with our smart contract.
 
