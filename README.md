@@ -1,5 +1,6 @@
 # How to Build an NFT Game On the Celo Blockchain
 
+
 ## Introduction
 
 In this tutorial, I will teach you how to build an NFT game on the Celo blockchain.
@@ -14,7 +15,23 @@ And a screenshot
 
 ![image](images/monster-nft.jpg)
 
-## Prerequisites.
+
+### Table Of Contents
+- [Introduction](#introduction).
+- [Prerequisites](#prerequisites).
+- [Requirements](#requirements).
+- [Installation](#installation).
+- [Smart contract development](#smart-contract).
+  * [NFT Minter](#nft-minter).
+  * [Breakdown](#breakdown).
+- [Frontend Development](#front-end)
+    * [Stack](#stack)
+    * [Setup](#setup)
+    * [Deployment](#deployment)
+    * [Hooks](#hooks)
+ - [References](#references)
+
+## Prerequisites
 
 - Prior knowledge of Solidity, smart contracts, and blockchain concepts.
 - Prior knowledge of Hardhat.
